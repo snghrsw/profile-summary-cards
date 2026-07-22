@@ -13,12 +13,16 @@ jobs:
     name: generate-github-cards
     permissions:
       contents: write
-      
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: vn7n24fzkq/github-profile-summary-cards@release
+      - uses: actions/checkout@v4
+      # Pin to v0.10.1: @release jumped to v0.11.x (2026-07-17) and started
+      # failing card generation with Axios 403 (GitHub secondary rate limits).
+      # Last known fully successful run used this release.
+      - uses: vn7n24fzkq/github-profile-summary-cards@v0.10.1
         env:
           GITHUB_TOKEN: ${{ secrets.SUMMARY_CARD_TOKEN }}
         with:
           USERNAME: ${{ github.repository_owner }}
+          BRANCH_NAME: master
           UTC_OFFSET: 9
